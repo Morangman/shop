@@ -160,7 +160,7 @@
                 
                 <div class="basket">
                     <a href="#" style="color: #d2b9a6;"><i class="fas fa-shopping-basket"></i></a>
-                    <div class="basket__items">0</div>
+                    <div id="basket__items" class="basket__items">0</div>
                 </div>
             </div>
         </div>

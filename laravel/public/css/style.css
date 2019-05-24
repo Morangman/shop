@@ -1378,6 +1378,8 @@ input:focus, textarea:focus {
     transition: visibility 0s .05s,opacity .05s ease-in;
 }
 
+
+
 @media (max-width: 1000px) {
 
     *{

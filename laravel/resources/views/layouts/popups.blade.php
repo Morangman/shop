@@ -147,6 +147,17 @@
     </div>
 </div>
 
+<div id="orders_popup">
+    <div class="popup-orders-content">
+        <div class="popup-block-content">
+            <div class="popup-header-orders">
+                <div class="close-popup-orders text"><a href="javascript:"><i class="fas fa-times"></i></a></div>
+                <p class="order-head-title text">Корзина</p>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 
 $('#reg_button_submit').click(function(){

@@ -4,11 +4,11 @@
     <div class="layout">
         <div class="product-grid">
             <div class="product-column-left">
-                <a href="#" id="zoom"><img class="responsive-img" src="./img/product.jpg"></a>
+                <a href="#" id="zoom"><img id="product-image" class="responsive-img" src="./img/product.jpg"></a>
                 <div class="buy-form text">
                     <div class="amount">4000 грн</div>
                     <div class="buttons-buy">
-                        <a class="btn buy" href="#">Купить</a>
+                        <a class="btn buy" href="javascript:">Купить</a>
                         <a class="btn order-now" href="#">Быстрый заказ</a>
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                 <div class="product-column-right-header">
                     <div class="product-info">
                         <div class="product-title">
-                            <p>New collection 2019</p>
+                            <p id="product_name">New collection 2019</p>
                             <div class="product-code">
                                 <p class="code-header">Артикул</p>
                                 <p>5235612</p>
@@ -89,7 +89,7 @@
                     </div>
                     <div class="product-order">
                         <div class="product-buy">
-                            <a class="btn buy" href="#">Купить</a>
+                            <a class="btn buy" href="javascript:">Купить</a>
                         </div>
                         <div class="product-order-now">
                             <a class="btn order-now" href="#">Быстрый заказ</a>
@@ -151,6 +151,7 @@
                         </tbody>
                     </table>
                 </div>
+                <div id="test"></div>
 
                 <div class="comment-form text">
                     <div class="comment-block">
@@ -178,6 +179,109 @@
         </div>
     </div>
 </div>
+
+<script>
+   $(document).ready(function(){   
+
+        getOrdersCount();
+
+        var localValue = localStorage.getItem('orders');
+        
+        if(localValue){
+            var storedNames = JSON.parse(localStorage.getItem("orders"));
+            var outputs = "";
+            for(var i = 0; i < storedNames.order.length; i++)
+            {
+                outputs += 
+                    '<div id="list_id_'+ storedNames.order[i].id + '" style="display: flex; flex-direction: row; align-items: center;">' + 
+                    '<a href="javascript:" value="'+ storedNames.order[i].id + '" class="delete_order"><i class="fas fa-trash"></i></a>' +
+                    '<img class="list_order_image" style="width: 50px; height: 50px;" src="' +  
+                    storedNames.order[i].image + '">' +
+                    '<p class="list_order_name" style="margin-right: 5px;">' + storedNames.order[i].name + '</p>' +
+                    '<p class="list_order_amount">' + storedNames.order[i].cost + '</p>' +
+                    '</div>';
+            }
+            document.getElementById("test").innerHTML= outputs;
+        }
+
+        $('.delete_order').click(function(){
+
+            alert("Удаление елемента: №" + $(this).attr('value'));
+
+            var id = $(this).attr('value');
+
+            var localValue = localStorage.getItem('orders');
+            var storedNames = JSON.parse(localStorage.getItem("orders"));
+
+            $("#list_id_" + id).remove();
+
+            var orders = {
+                order: []
+            };
+
+            $("#test > div").each(function(index, el) {
+                orders.order.push({
+                    id:  Math.floor(Math.random() * (100 - 1 + 1)) + 1,
+                    image: $('.list_order_image').attr('src'),
+                    name: $('.list_order_name').text(),
+                    cost: $('.list_order_amount').text()
+                });
+            });
+
+            localStorage.setItem("orders", JSON.stringify(orders));
+
+            getOrdersCount();
+        });
+    });
+
+
+$('.buy').click(function(){
+
+    var orders = {
+        order: []
+    };
+
+    var localValue = localStorage.getItem('orders');
+    var storedNames = JSON.parse(localStorage.getItem("orders"));
+    if(localValue){
+        //Добавляем или изменяем значение:
+        storedNames.order.push({
+            id:  Math.floor(Math.random() * (100 - 1 + 1)) + 1,
+            image: $('#product-image').attr('src'),
+            name: $('#product_name').text(),
+            cost: $('.amount').text()
+        });
+        localStorage.setItem("orders", JSON.stringify(storedNames));
+    }else{
+        orders.order.push({
+            id:  Math.floor(Math.random() * (100 - 1 + 1)) + 1,
+            image: $('#product-image').attr('src'),
+            name: $('#product_name').text(),
+            cost: $('.amount').text()
+        });
+        localStorage.setItem("orders", JSON.stringify(orders));
+    }
+
+    //удаляем:
+    //localStorage.removeItem("myKey");
+
+    //очищаем все хранилище
+    //localStorage.clear()
+    getOrdersCount();
+});
+
+function getOrdersCount(){
+    var storedNames = JSON.parse(localStorage.getItem("orders"));
+    var count = storedNames.order.length;
+    var result = "";
+    result += count;
+
+    document.getElementById("basket__items").innerHTML= result;
+}
+
+
+
+</script>
 
 @include('layouts.popups')
 
