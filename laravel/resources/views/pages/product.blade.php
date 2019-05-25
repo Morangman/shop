@@ -151,7 +151,6 @@
                         </tbody>
                     </table>
                 </div>
-                <div id="test"></div>
 
                 <div class="comment-form text">
                     <div class="comment-block">
@@ -208,10 +207,11 @@
 
             alert("Удаление елемента: №" + $(this).attr('value'));
 
-            var id = $(this).attr('value');
+            localStorage.removeItem("orders");
 
-            var localValue = localStorage.getItem('orders');
-            var storedNames = JSON.parse(localStorage.getItem("orders"));
+            localStorage.clear();
+
+            var id = $(this).attr('value');
 
             $("#list_id_" + id).remove();
 
@@ -220,12 +220,14 @@
             };
 
             $("#test > div").each(function(index, el) {
+                console.log(index + ' ' + el);
                 orders.order.push({
                     id:  Math.floor(Math.random() * (100 - 1 + 1)) + 1,
-                    image: $('.list_order_image').attr('src'),
-                    name: $('.list_order_name').text(),
-                    cost: $('.list_order_amount').text()
+                    image: $(this).find('.list_order_image').attr('src'),
+                    name: $(this).find('.list_order_name').text(),
+                    cost: $(this).find('.list_order_amount').text()
                 });
+                console.log(orders);
             });
 
             localStorage.setItem("orders", JSON.stringify(orders));

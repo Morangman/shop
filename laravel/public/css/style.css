@@ -1378,7 +1378,59 @@ input:focus, textarea:focus {
     transition: visibility 0s .05s,opacity .05s ease-in;
 }
 
+#orders_opup{
+    display: none;
+}
 
+.orders-popup{
+    /* display: flex!important; */
+    justify-content: center;
+    align-items: center;
+    transition: opacity 2s linear;
+}
+
+.popup-orders-content{
+    position: relative;
+    margin: 0 auto;
+    padding: 30px;
+    width: 790px;
+}
+
+.popup-header-orders{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.close-popup-orders{
+    position: absolute;
+    z-index: 100;
+    top: 9px;
+    right: 9px;
+    cursor: pointer;
+    border: 0;
+    color: #b2b2b2;
+    transition: color .1s;
+    font-size: 20px;
+}
+
+.order-head-title{
+    font-size: 32px;
+    font-weight: 400;
+    margin: -6px 0 12px -2px;
+}
+
+
+
+.delete_order{
+    top: 0;
+    bottom: 0;
+    left: -30px;
+    width: 30px;
+    border: 0;
+    color: #b2b2b2;
+    font-size: 13px;
+}
 
 @media (max-width: 1000px) {
 

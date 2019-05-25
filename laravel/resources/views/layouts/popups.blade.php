@@ -147,12 +147,15 @@
     </div>
 </div>
 
-<div id="orders_popup">
+<div id="orders_popup" class="overlay orders-popup" >
     <div class="popup-orders-content">
-        <div class="popup-block-content">
+        <div class="popup-block popup-block-content">
             <div class="popup-header-orders">
-                <div class="close-popup-orders text"><a href="javascript:"><i class="fas fa-times"></i></a></div>
                 <p class="order-head-title text">Корзина</p>
+                <div class="close-popup-orders text"><a href="javascript:"><i class="fas fa-times"></i></a></div>
+            </div>
+            <div class="popup-orders-body">
+                <div id="test"></div>
             </div>
         </div>
     </div>
