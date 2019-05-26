@@ -253,6 +253,36 @@ window.Laravel = <?php echo json_encode([
         $('body').css('overflow','hidden');
     });
 
+    $('#basket').click(function () {
+        $("#orders_popup").show().addClass( "open" );
+        $(".popup-orders-content").show();
+        $('body').css('overflow','hidden');
+
+        var localValue = localStorage.getItem('orders');
+
+        if(localValue){
+            var storedNames = JSON.parse(localStorage.getItem("orders"));
+            var outputs = "";
+            for(var i = 0; i < storedNames.order.length; i++)
+            {
+                outputs += 
+                    '<div id="list_id_'+ storedNames.order[i].id + '" style="display: flex; flex-direction: row; align-items: center;">' + 
+                    '<a href="javascript:" value="'+ storedNames.order[i].id + '" class="delete_order"><i class="fas fa-trash"></i></a>' +
+                    '<img class="list_order_image" style="width: 50px; height: 50px;" src="' +  
+                    storedNames.order[i].image + '">' +
+                    '<p class="list_order_name" style="margin-right: 5px;">' + storedNames.order[i].name + '</p>' +
+                    '<p class="list_order_amount">' + storedNames.order[i].cost + '</p>' +
+                    '</div><br><hr><br>';
+            }
+            document.getElementById("test").innerHTML= outputs;
+        }
+    });
+
+    $('.close-popup-orders').click(function () {
+        $("#orders_popup").hide().removeClass( "open" );
+        $('body').css('overflow','scroll');
+    });
+
 
     $(document).ready(function(){
         $("#tel").inputmask("+38(0"+"99"+")"+"-999-99-99");
@@ -298,7 +328,32 @@ window.Laravel = <?php echo json_encode([
         }
     });
 
+    $("#orders_popup").click(function(e)
+    {
+        var container = $(".popup-orders-content");
+
+        // if the target of the click isn't the container nor a descendant of the container
+        if (!container.is(e.target) && container.has(e.target).length === 0)
+        {
+            container.hide();
+            $("#orders_popup").hide().removeClass( "open" );
+            $('body').css('overflow','scroll');
+        }
+    });
+
+    function getOrdersCount(){
+        var storedNames = JSON.parse(localStorage.getItem("orders"));
+        var count = storedNames.order.length;
+        var result = "";
+        result += count;
+
+        document.getElementById("basket__items").innerHTML= result;
+    }
+
     $(document).ready(function(){
+
+        getOrdersCount();
+
         $('.owl-carousel').owlCarousel({
             loop:true,
             dots: false,

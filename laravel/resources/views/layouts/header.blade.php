@@ -159,7 +159,7 @@
                 @endif
                 
                 <div class="basket">
-                    <a href="#" style="color: #d2b9a6;"><i class="fas fa-shopping-basket"></i></a>
+                    <a href="javascript:" id="basket" style="color: #d2b9a6;"><i class="fas fa-shopping-basket"></i></a>
                     <div id="basket__items" class="basket__items">0</div>
                 </div>
             </div>
