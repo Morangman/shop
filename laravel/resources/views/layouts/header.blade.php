@@ -141,9 +141,12 @@
                 <div class="auth-header">
                     <ul>
                         <li class="user_name">
-                            <p> Привет, {{ Auth::user()->name }}  <a href="javascript:"><i class="fas fa-user-circle"></i></a> </p>
+                            <p> {{ str_limit(Auth::user()->name, 1, '.') }} </p>
                             <div class="user_popup">
-                                <div class="dropdown-content-wrapper">
+                                <div class="dropdown-menu-wrapper">
+                                    <a href="javascript:">Личные данные</a>
+                                    <a href="javascript:">Заказы</a>
+                                    <a href="javascript:">Список желаний</a>
                                     <a id="logout" href="javascript:">Выйти</a>
                                 </div>
                             </div>

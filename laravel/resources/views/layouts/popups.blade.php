@@ -52,7 +52,7 @@
             </div>
             <div class="login-body">
                 <div class="login-tabs-content" id="j-popup-tab-auth" style="display: block;">
-                    <form method="post" id="login_form_id" action="/profile/login/" onsubmit="submit_authorization(this); return false;">
+                    <form method="post" id="login_form_id">
                         <div class="j-login-info-message"></div>
                         <div class="login-error-msg"></div>
                         <div class="form">
@@ -80,7 +80,7 @@
                 </div>
 
                 <div class="login-tabs-content" id="j-popup-tab-signup" style="display: none;">
-                    <form method="post" id="signup-form" action="/profile/sign_up/">
+                    <form method="post" id="signup-form">
                         <div class="j-signup-info-message"></div>
                         <div class="reg-error-msg"></div>
                         <div class="form">
@@ -358,56 +358,149 @@ $('#logout').click(function(){
 
 $(document).ready(function(){   
 
-// var localValue = localStorage.getItem('orders');
+    var localValue = localStorage.getItem('orders');
 
-// if(localValue){
-//     var storedNames = JSON.parse(localStorage.getItem("orders"));
-//     var outputs = "";
-//     for(var i = 0; i < storedNames.order.length; i++)
-//     {
-//         outputs += 
-//             '<div id="list_id_'+ storedNames.order[i].id + '" style="display: flex; flex-direction: row; align-items: center;">' + 
-//             '<a href="javascript:" value="'+ storedNames.order[i].id + '" class="delete_order"><i class="fas fa-trash"></i></a>' +
-//             '<img class="list_order_image" style="width: 50px; height: 50px;" src="' +  
-//             storedNames.order[i].image + '">' +
-//             '<p class="list_order_name" style="margin-right: 5px;">' + storedNames.order[i].name + '</p>' +
-//             '<p class="list_order_amount">' + storedNames.order[i].cost + '</p>' +
-//             '</div>';
-//     }
-//     document.getElementById("test").innerHTML= outputs;
-// }
+    if(localValue){
+        var storedNames = JSON.parse(localStorage.getItem("orders"));
+        var outputs = "";
+        for(var i = 0; i < storedNames.order.length; i++)
+        {
+            outputs += 
+                '<div id="list_id_'+ storedNames.order[i].id + '" style="display: flex; flex-direction: row; align-items: center; justify-content: space-around; font-size: 25px;">' + 
+                '<a href="javascript:" value="'+ storedNames.order[i].id + '" class="delete_order"><i class="fas fa-trash"></i></a>' +
+                '<img class="list_order_image" style="width: 100px; height: auto;" src="' + storedNames.order[i].image + '">' +
+                '<p class="list_order_name" style="margin-right: 5px;">' + storedNames.order[i].name + '</p>' +
 
-$('.delete_order').click(function(){
+                '<div class="orders_counter"><a href="#" id="order_minus" value="'+ storedNames.order[i].id + '" style="margin-right: 10px;">-</a>' +
+                '<span id="orders_namber_'+ storedNames.order[i].id + '" class="orders_namber">' + storedNames.order[i].count + '</span>' +
+                '<a href="#" id="order_plus" value="'+ storedNames.order[i].id + '" style="margin-left: 10px;">+</a></div>' +
 
-    alert("Удаление елемента: №" + $(this).attr('value'));
+                '<p class="list_order_amount">' + storedNames.order[i].cost + '</p>' +
+                '</div>';
+        }
+        document.getElementById("test").innerHTML= outputs;
+    }
 
-    localStorage.removeItem("orders");
+    $('.delete_order').click(function(){
 
-    localStorage.clear();
+        alert("Удаление елемента: №" + $(this).attr('value'));
 
-    var id = $(this).attr('value');
+        localStorage.removeItem("orders");
 
-    $("#list_id_" + id).remove();
+        localStorage.clear();
 
-    var orders = {
-        order: []
-    };
+        var id = $(this).attr('value');
 
-    $("#test > div").each(function(index, el) {
-        console.log(index + ' ' + el);
-        orders.order.push({
-            id:  Math.floor(Math.random() * (100 - 1 + 1)) + 1,
-            image: $(this).find('.list_order_image').attr('src'),
-            name: $(this).find('.list_order_name').text(),
-            cost: $(this).find('.list_order_amount').text()
+        $("#list_id_" + id).remove();
+
+        var orders = {
+            order: []
+        };
+
+        $("#test > div").each(function(index, el) {
+            orders.order.push({
+                id:  Math.floor(Math.random() * (100 - 1 + 1)) + 1,
+                image: $(this).find('.list_order_image').attr('src'),
+                name: $(this).find('.list_order_name').text(),
+                count: $(this).find('.orders_namber').text(),
+                cost: $(this).find('.list_order_amount').text()
+            });
         });
-        console.log(orders);
+
+        localStorage.setItem("orders", JSON.stringify(orders));
+
+        getOrdersCount();
     });
 
-    localStorage.setItem("orders", JSON.stringify(orders));
+    $('#order_minus').click(function(){
+        var result = "";
+        var id = $(this).attr('value');
+        var cnt = parseInt($("#orders_namber_" + id).text());
 
-    getOrdersCount();
-});
+        console.log("id - "+id+" cnt - "+cnt);
+
+        cnt -= 1;
+        if(cnt < 1){
+            cnt = 1;
+        }
+        result += cnt;
+
+        console.log(result);
+
+        document.getElementById("orders_namber_" + id).innerHTML= result;
+
+        //перезаписываем массив в локальном хранилище
+
+        localStorage.removeItem("orders");
+
+        localStorage.clear();
+
+        var orders = {
+            order: []
+        };
+
+        $("#test > div").each(function(index, el) {
+            orders.order.push({
+                id:  Math.floor(Math.random() * (100 - 1 + 1)) + 1,
+                image: $(this).find('.list_order_image').attr('src'),
+                name: $(this).find('.list_order_name').text(),
+                count: $(this).find('.orders_namber').text(),
+                cost: $(this).find('.list_order_amount').text()
+            });
+        });
+
+        localStorage.setItem("orders", JSON.stringify(orders));
+    });
+
+    $('#order_plus').click(function(){
+        var result = "";
+        var id = $(this).attr('value');
+        var cnt = parseInt($("#orders_namber_" + id).text());
+
+        console.log("id - "+id+" cnt - "+cnt);
+
+        cnt += 1;
+        result += cnt;
+
+        console.log(result);
+
+        document.getElementById("orders_namber_" + id).innerHTML= result;
+
+        //перезаписываем массив в локальном хранилище
+
+        localStorage.removeItem("orders");
+
+        localStorage.clear();
+
+        var orders = {
+            order: []
+        };
+
+        $("#test > div").each(function(index, el) {
+            orders.order.push({
+                id:  Math.floor(Math.random() * (100 - 1 + 1)) + 1,
+                image: $(this).find('.list_order_image').attr('src'),
+                name: $(this).find('.list_order_name').text(),
+                count: $(this).find('.orders_namber').text(),
+                cost: $(this).find('.list_order_amount').text()
+            });
+        });
+
+        localStorage.setItem("orders", JSON.stringify(orders));
+    });
+
+    function getOrdersCount(){
+        var storedNames = JSON.parse(localStorage.getItem("orders"));
+
+        if(storedNames){
+            var count = storedNames.order.length;
+            var result = "";
+            result += count;
+
+            document.getElementById("basket__items").innerHTML= result;
+        }
+    }
+
 });
 
 </script>

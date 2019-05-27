@@ -180,59 +180,18 @@
 </div>
 
 <script>
-//    $(document).ready(function(){   
 
-//         var localValue = localStorage.getItem('orders');
-        
-//         if(localValue){
-//             var storedNames = JSON.parse(localStorage.getItem("orders"));
-//             var outputs = "";
-//             for(var i = 0; i < storedNames.order.length; i++)
-//             {
-//                 outputs += 
-//                     '<div id="list_id_'+ storedNames.order[i].id + '" style="display: flex; flex-direction: row; align-items: center;">' + 
-//                     '<a href="javascript:" value="'+ storedNames.order[i].id + '" class="delete_order"><i class="fas fa-trash"></i></a>' +
-//                     '<img class="list_order_image" style="width: 50px; height: 50px;" src="' +  
-//                     storedNames.order[i].image + '">' +
-//                     '<p class="list_order_name" style="margin-right: 5px;">' + storedNames.order[i].name + '</p>' +
-//                     '<p class="list_order_amount">' + storedNames.order[i].cost + '</p>' +
-//                     '</div>';
-//             }
-//             document.getElementById("test").innerHTML= outputs;
-//         }
+    function getOrdersCount(){
+        var storedNames = JSON.parse(localStorage.getItem("orders"));
 
-//         $('.delete_order').click(function(){
+        if(storedNames){
+            var count = storedNames.order.length;
+            var result = "";
+            result += count;
 
-//             alert("Удаление елемента: №" + $(this).attr('value'));
-
-//             localStorage.removeItem("orders");
-
-//             localStorage.clear();
-
-//             var id = $(this).attr('value');
-
-//             $("#list_id_" + id).remove();
-
-//             var orders = {
-//                 order: []
-//             };
-
-//             $("#test > div").each(function(index, el) {
-//                 console.log(index + ' ' + el);
-//                 orders.order.push({
-//                     id:  Math.floor(Math.random() * (100 - 1 + 1)) + 1,
-//                     image: $(this).find('.list_order_image').attr('src'),
-//                     name: $(this).find('.list_order_name').text(),
-//                     cost: $(this).find('.list_order_amount').text()
-//                 });
-//                 console.log(orders);
-//             });
-
-//             localStorage.setItem("orders", JSON.stringify(orders));
-
-//             getOrdersCount();
-//         });
-//     });
+            document.getElementById("basket__items").innerHTML= result;
+        }
+    }
 
 
 $('.buy').click(function(){
@@ -249,6 +208,7 @@ $('.buy').click(function(){
             id:  Math.floor(Math.random() * (100 - 1 + 1)) + 1,
             image: $('#product-image').attr('src'),
             name: $('#product_name').text(),
+            count: 1,
             cost: $('.amount').text()
         });
         localStorage.setItem("orders", JSON.stringify(storedNames));
@@ -257,10 +217,13 @@ $('.buy').click(function(){
             id:  Math.floor(Math.random() * (100 - 1 + 1)) + 1,
             image: $('#product-image').attr('src'),
             name: $('#product_name').text(),
+            count: 1,
             cost: $('.amount').text()
         });
         localStorage.setItem("orders", JSON.stringify(orders));
     }
+
+
 
     //удаляем:
     //localStorage.removeItem("myKey");
@@ -269,17 +232,6 @@ $('.buy').click(function(){
     //localStorage.clear()
     getOrdersCount();
 });
-
-function getOrdersCount(){
-    var storedNames = JSON.parse(localStorage.getItem("orders"));
-    var count = storedNames.order.length;
-    var result = "";
-    result += count;
-
-    document.getElementById("basket__items").innerHTML= result;
-}
-
-
 
 </script>
 
